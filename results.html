@@ -1,66 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gift Suggestions - GiftGenie</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <title>Gift Suggestions – GiftGenie</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: #fbe6e6;
+      color: #1f1f1f;
+    }
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .iframe-container {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+    }
+    .iframe-container iframe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
-<body class="bg-gradient-to-br from-indigo-100 to-white min-h-screen flex flex-col items-center justify-center px-4 py-10">
+<body class="min-h-screen px-4 py-10">
 
-  <h1 class="text-4xl font-bold text-indigo-700 mb-6">🎁 Your Gift Suggestions</h1>
-  <div id="resultContainer" class="bg-white rounded-2xl shadow-lg p-8 w-full max-w-2xl text-lg text-gray-700"></div>
+  <div class="max-w-5xl mx-auto space-y-10">
+
+    <!-- Header -->
+    <div class="card p-8">
+      <h1 class="text-4xl font-bold text-pink-700 mb-6 text-center">
+        <i class="fas fa-gift mr-2"></i>Your Gift Suggestions
+      </h1>
+
+      <div id="resultContainer" class="text-lg space-y-6"></div>
+    </div>
+
+    <div class="text-center">
+      <a href="index.html" class="text-pink-700 font-medium hover:underline">
+        <i class="fas fa-arrow-left mr-2"></i>Start Again
+      </a>
+    </div>
+  </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const gender = params.get('gender');
     const occasion = params.get('occasion');
     const relation = params.get('relation');
     const handmade = params.get('handmade') === 'true';
 
-    const suggestions = {
-      default: ["Chocolates", "Flowers", "Gift Card", "Personalized Mug", "Perfume", "Photo Frame"],
+    const productRecommendations = {
       Birthday: {
-        Mother: ["Spa Kit", "Jewelry", "Cookbook", "Personalized Apron"],
-        Father: ["Wallet", "Smart Watch", "Whiskey Glass Set"],
-        Sister: ["Makeup Set", "Phone Case", "Customized Jewelry Box"],
-        Brother: ["Bluetooth Speaker", "Watch", "Sneakers"]
-      },
-      Anniversary: {
-        Parents: ["Couple Watch Set", "Dinner Voucher", "Memory Album"],
-        "Uncle-Aunt": ["Photo Frame", "Home Decor", "Wine Glass Set"],
-        "Sister-Brother-in-law": ["Customized Cushion", "Gift Hamper", "Couple Rings"]
+        Mother: ["Vanity Wagon Love Story Gift Set","Plum Vanilla Vibes Gift Set","Pidilite Madhubani Art Kit"],
+        Father: ["Park Avenue Luxury Grooming Set", "Plum Vanilla Vibes Gift Set", "The Brown Box DIY Macrame Kit"]
       }
     };
 
-    const handmadeIdeas = [
-      "DIY Explosion Box", 
-      "Handmade Greeting Card", 
-      "Origami Flowers", 
-      "Scrapbook of Memories", 
-      "Photo Collage", 
-      "Custom Painted Mug"
-    ];
+    const selectedNames = (productRecommendations[occasion]?.[relation]) || ["Vanity Wagon Love Story Gift Set", "Plum Vanilla Vibes Gift Set", "Pidilite Madhubani Art Kit"];
+    
+    const allProducts = {
+      "Vanity Wagon Love Story Gift Set": {
+        img: "https://m.media-amazon.com/images/I/71avDFVJrEL._SX679_.jpg",
+        url: "https://www.amazon.in/dp/B0CGLXH9X9"
+      },
+      "Park Avenue Luxury Grooming Set": {
+        img: "https://m.media-amazon.com/images/I/71C2c1CcvxL._SX679_.jpg",
+        url: "https://www.amazon.in/dp/B01N9XB3FH"
+      },
+      "Plum Vanilla Vibes Gift Set": {
+        img: "https://m.media-amazon.com/images/I/41hf6eKiP2L.jpg",
+        url: "https://www.amazon.in/dp/B07X5WXZWF"
+      },
+      "Pidilite Madhubani Art Kit": {
+        img: "https://m.media-amazon.com/images/I/61fb5k-v+jL._SX679_.jpg",
+        url: "https://www.amazon.in/dp/B09MT3CBNJ"
+      },
+      "The Brown Box DIY Macrame Kit": {
+        img: "https://m.media-amazon.com/images/I/81pU6qN3RDL._SX679_.jpg",
+        url: "https://www.amazon.in/dp/B08X78ZV1L"
+      },
+      "Little Birdie Build‑A‑Home DIY Kit": {
+        img: "https://m.media-amazon.com/images/I/71FCyqL9-GL._SL1500_.jpg",
+        url: "https://www.amazon.in/dp/B09C57GJPJ"
+      }
+    };
 
-    let selectedGifts = suggestions?.[occasion]?.[relation] || suggestions.default;
+    let html = `
+      <h2 class="text-2xl font-semibold text-pink-700 mb-4">🎀 Recommended Gifts</h2>
+      <div class="grid md:grid-cols-3 gap-6">`;
 
-    let output = `<p><strong>Relation:</strong> ${relation}</p><p><strong>Occasion:</strong> ${occasion}</p><hr class="my-3"/>`;
-    output += `<h2 class="text-xl font-semibold text-indigo-600 mb-2">🎁 Recommended Gifts:</h2><ul class="list-disc ml-6 mb-4">`;
-    selectedGifts.forEach(gift => {
-      output += `<li>${gift}</li>`;
+    selectedNames.forEach(name => {
+      const p = allProducts[name];
+      html += `
+        <div class="card overflow-hidden">
+          <img src="${p.img}" alt="${name}" class="w-full h-48 object-cover"/>
+          <div class="p-4">
+            <h3 class="font-semibold mb-2">${name}</h3>
+            <a href="${p.url}" target="_blank" class="text-pink-600 underline">Buy Now</a>
+          </div>
+        </div>`;
     });
-    output += `</ul>`;
+
+    html += `</div>`;
 
     if (handmade) {
-      output += `<h2 class="text-xl font-semibold text-pink-600 mb-2">🖌 Handmade Gift Ideas:</h2><ul class="list-disc ml-6">`;
-      handmadeIdeas.forEach(idea => {
-        output += `<li>${idea}</li>`;
+      html += `
+        <hr class="my-8"/>
+        <h2 class="text-2xl font-semibold text-pink-700 mb-4">🖌 Handmade Gift Tutorials</h2>
+        <div class="grid md:grid-cols-2 gap-6">`;
+
+      const tutorials = [
+        {
+          title: "DIY Explosion Box",
+          youtube: "https://www.youtube.com/embed/eq0R1Mi-DK4"
+        },
+        {
+          title: "Easy Origami Flower",
+          youtube: "https://www.youtube.com/embed/vrEgWrtpvYw"
+        },
+        {
+          title: "Cute Paper Envelope Pouch",
+          youtube: "https://www.youtube.com/embed/W4UjRJQKM5k"
+        },
+        {
+          title: "DIY Scrapbook Gift Album",
+          youtube: "https://www.youtube.com/embed/NcIxtx4Gr3M"
+        }
+      ];
+
+      tutorials.forEach(t => {
+        html += `
+          <div class="card p-4">
+            <h3 class="font-semibold mb-3">${t.title}</h3>
+            <div class="iframe-container">
+              <iframe src="${t.youtube}" frameborder="0" allowfullscreen></iframe>
+            </div>
+          </div>`;
       });
-      output += `</ul>`;
+
+      html += `</div>`;
     }
 
-    document.getElementById("resultContainer").innerHTML = output;
+    document.getElementById("resultContainer").innerHTML = html;
   </script>
-
 </body>
 </html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -148,3 +149,105 @@
 
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GiftGenie - Your Wish, Our Suggestion</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <style>
+    body {
+      background: linear-gradient(135deg, #f9f7f7, #dbeafe);
+    }
+    .animated-gift {
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0% { transform: translatey(0px); }
+      50% { transform: translatey(-20px); }
+      100% { transform: translatey(0px); }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-6">
+  <div class="text-center animate__animated animate__fadeInDown">
+    <h1 class="text-5xl font-extrabold text-indigo-700 mb-4">🧞‍♂️ GiftGenie</h1>
+    <p class="text-lg text-gray-600 mb-8 max-w-xl mx-auto">
+      Your Wish for the Perfect Gift, Granted! Let GiftGenie help you choose heartfelt, handmade, and thoughtful gifts for any occasion.
+    </p>
+  </div>
+
+  <form id="giftForm" class="w-full max-w-lg bg-white rounded-2xl shadow-xl p-8">
+  <div class="mb-6">
+    <label class="block text-gray-700 font-semibold mb-2">Your Gender</label>
+    <select name="gender" class="w-full border border-gray-300 rounded-lg p-2">
+      <option>Male</option>
+      <option>Female</option>
+      <option>Other</option>
+    </select>
+  </div>
+
+  <div class="mb-6">
+    <label class="block text-gray-700 font-semibold mb-2">Occasion</label>
+    <select name="occasion" class="w-full border border-gray-300 rounded-lg p-2">
+      <option>Birthday</option>
+      <option>Anniversary</option>
+      <option>Graduation</option>
+      <option>Festivals</option>
+      <option>Farewell</option>
+    </select>
+  </div>
+
+  <div class="mb-6">
+    <label class="block text-gray-700 font-semibold mb-2">Relation</label>
+    <select name="relation" class="w-full border border-gray-300 rounded-lg p-2">
+      <option>Mother</option>
+      <option>Father</option>
+      <option>Sister</option>
+      <option>Brother</option>
+      <option>Uncle</option>
+      <option>Aunt</option>
+      <option>Grandmother</option>
+      <option>Grandfather</option>
+      <option>Parents</option>
+      <option>Uncle-Aunt</option>
+      <option>Sister-Brother-in-law</option>
+      <option>Brother-Sister-in-law</option>
+    </select>
+  </div>
+
+  <div class="mb-6">
+    <label class="inline-flex items-center">
+      <input type="checkbox" name="handmade" class="form-checkbox h-5 w-5 text-indigo-600">
+      <span class="ml-2 text-gray-700">Include Handmade Gift Ideas</span>
+    </label>
+  </div>
+
+  <div class="text-center">
+    <button type="submit"
+      class="bg-indigo-600 text-white font-semibold py-2 px-6 rounded-xl hover:bg-indigo-700 transition duration-300">
+      🎉 Get Gift Suggestions
+    </button>
+  </div>
+</form>
+
+<script>
+  document.getElementById("giftForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const gender = this.gender.value;
+    const occasion = this.occasion.value;
+    const relation = this.relation.value;
+    const handmade = this.handmade.checked;
+
+    // Redirect with query params
+    window.location.href = `results.html?gender=${encodeURIComponent(gender)}&occasion=${encodeURIComponent(occasion)}&relation=${encodeURIComponent(relation)}&handmade=${handmade}`;
+  });
+</script>
+
+</body>
+</html>
+>>>>>>> d47a6ade72586414a776ca6c790875b0d687b462
